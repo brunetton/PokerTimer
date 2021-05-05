@@ -3,13 +3,13 @@
 	import Timer from "easytimer.js"
 
 	var formattedTime = "00:00:00"
-	var paused = false
+	var started = false
+	var paused = true
 	var round = 1
 	var pieAngle = 0
 	var smallBlind = $initialSmallBlind
 
 	const timer = new Timer()
-	timer.start({ precision: "seconds", countdown: true, startValues: { seconds: $roundDuration } })
 
 	timer.addEventListener("targetAchieved", (e) => {
 		nextRound()
@@ -17,7 +17,7 @@
 
 	timer.addEventListener("secondsUpdated", function (e) {
 		formattedTime = timer.getTimeValues().toString()
-		pieAngle = ($roundDuration - timer.getTimeValues().seconds) * 360 / $roundDuration
+		pieAngle = ($roundDuration - timer.getTotalTimeValues().seconds) * 360 / $roundDuration
 	})
 
 	function nextRound() {
@@ -28,13 +28,23 @@
 		formattedTime = timer.getTimeValues().toString()
 	}
 
+	function start() {
+		timer.start({ precision: "seconds", countdown: true, startValues: { seconds: $roundDuration } })
+		started = true
+	}
+
 	function toggle() {
-		if (timer.isRunning()) {
-			paused = true
-			timer.pause()
-		} else {
+		if (paused) {
+			if (!started) {
+				// First time init
+				start()
+			} else {
+				timer.start()
+			}
 			paused = false
-			timer.start()
+		} else {
+			timer.pause()
+			paused = true
 		}
 	}
 
@@ -52,29 +62,31 @@
 
 </script>
 
+
 <button on:click={reset} style="font-size: 1.2em; padding: 0.3em;"> Reset </button>
 
+
 <div
-	style="color: #333333; margin: 2em; padding: 0.5em; padding-bottom: 3em; text-align: center;
-    background: conic-gradient(
-        hsla(0, 0%, 0%, .5) 0deg {pieAngle}deg,
-        hsla(0, 100%, 100%, 0) 0deg {pieAngle}deg
+style="color: #333333; margin: 2em; padding: 0.5em; padding-bottom: 3em; text-align: center;
+background: conic-gradient(
+	hsla(0, 0%, 0%, .5) 0deg {pieAngle}deg,
+	hsla(0, 100%, 100%, 0) 0deg {pieAngle}deg
     ) {bgColor};
 }"
 >
-	<div style="font-size: 2em; color: #ddd">
-		<p>Round {round}</p>
-		<p>{formattedTime}</p>
-		<div>
-			sb: {smallBlind} - bb: {smallBlind * 2}
-		</div>
+<div style="font-size: 2em; color: #ddd">
+	<p>Round {round}</p>
+	<p>{formattedTime}</p>
+	<div>
+		sb: {smallBlind} - bb: {smallBlind * 2}
 	</div>
+</div>
 
-	<button on:click={toggle} style="font-size: 1.2em; padding: 0.3em; margin-top: 3em">
-		{#if paused}
-			Start
-		{:else}
-			Pause
-		{/if}
-	</button>
+<button on:click={toggle} style="font-size: 1.2em; padding: 0.3em; margin-top: 3em">
+	{#if paused}
+	Start
+	{:else}
+	Pause
+	{/if}
+</button>
 </div>
