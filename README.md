@@ -1,3 +1,7 @@
+# Start
+
+`npm run dev -- --port 3333`
+
 # Troubleshooting
 
 Why doesn't this works in Firefox < v83 ?
