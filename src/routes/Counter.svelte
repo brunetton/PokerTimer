@@ -1,13 +1,15 @@
 <script lang="ts">
-	import { initialSmallBlind, roundDuration } from "../store"
 	import Timer from "easytimer.js"
+
+	export let initialSmallBlind
+	export let roundDuration
 
 	var formattedTime = "00:00:00"
 	var started = false
 	var paused = true
 	var round = 1
 	var pieAngle = 0
-	var smallBlind = $initialSmallBlind
+	var smallBlind = initialSmallBlind
 
 	const timer = new Timer()
 
@@ -17,7 +19,7 @@
 
 	timer.addEventListener("secondsUpdated", function (e) {
 		formattedTime = timer.getTimeValues().toString()
-		pieAngle = ($roundDuration - timer.getTotalTimeValues().seconds) / $roundDuration
+		pieAngle = (roundDuration - timer.getTotalTimeValues().seconds) / roundDuration
 	})
 
 	function nextRound() {
@@ -29,7 +31,7 @@
 	}
 
 	function start() {
-		timer.start({ precision: "seconds", countdown: true, startValues: { seconds: $roundDuration } })
+		timer.start({ precision: "seconds", countdown: true, startValues: { seconds: roundDuration } })
 		started = true
 	}
 
@@ -50,15 +52,16 @@
 
 	function reset() {
 		paused = true
+		started = false
 		timer.reset()
 		timer.stop()
-		smallBlind = $initialSmallBlind
+		smallBlind = initialSmallBlind
 		formattedTime = "00:00:00"
 		pieAngle = 0
 		round = 1
 	}
 
-	$: bgColor = paused ? "#555" : "#0ac"
+	$: pieColor = paused ? "#555" : "#0ac"
 
 </script>
 
@@ -67,14 +70,12 @@
 
 
 <div
-style="color: #333333; margin: 2em; padding: 0.5em; padding-bottom: 3em; text-align: center;
-background: conic-gradient(
-    ) {bgColor};
-}"
+style="color: #333333; margin: 2em; padding: 0.5em; padding-bottom: 3em; text-align: center; height: 500px;
 background:
 	conic-gradient(#333 {pieAngle}turn, {pieColor} {pieAngle + 0.001}turn);
 	transform-style: preserve-3d;
 )
+"
 >
 <div style="font-size: 2em; color: #ddd">
 	<p>Round {round}</p>
