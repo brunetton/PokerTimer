@@ -1,14 +1,14 @@
 <script lang="ts">
 	import Timer from "easytimer.js"
 
-	export let initialSmallBlind
-	export let roundDuration
+	export let initialSmallBlind = 1
+	export let roundDuration = 6
 
 	var formattedTime = "00:00:00"
 	var started = false
 	var paused = true
 	var round = 1
-	var pieAngle = 0
+	var pieAngle = .7
 	var smallBlind = initialSmallBlind
 
 	const timer = new Timer()
@@ -63,33 +63,34 @@
 
 	$: pieColor = paused ? "#555" : "#0ac"
 
+	let blurRatio = "0.8px"
+
 </script>
 
 
-<button on:click={reset} style="font-size: 1.2em; padding: 0.3em;"> Reset </button>
-
-
-<div
-style="color: #333333; margin: 2em; padding: 0.5em; padding-bottom: 3em; text-align: center; height: 500px;
-background:
-	conic-gradient(#333 {pieAngle}turn, {pieColor} {pieAngle + 0.001}turn);
-	transform-style: preserve-3d;
-)
-"
->
-<div style="font-size: 2em; color: #ddd">
-	<p>Round {round}</p>
-	<p>{formattedTime}</p>
-	<div>
-		sb: {smallBlind} - bb: {smallBlind * 2}
-	</div>
+<div class="relative bg-svg-cards-white bg-repeat h-screen" style="filter: blur({blurRatio}); -webkit-filter: blur({blurRatio});">
 </div>
 
-<button on:click={toggle} style="font-size: 1.2em; padding: 0.3em; margin-top: 3em">
-	{#if paused}
-	Start
-	{:else}
-	Pause
-	{/if}
-</button>
+<div class="absolute top-0">
+	<div class="h-screen w-screen text-center pt-10 text-gray-50" style="background:
+		conic-gradient(#000a {pieAngle}turn, #fff0 {pieAngle + (pieAngle && 0.001)}turn);
+		transform-style: preserve-3d;
+	)">
+		<button on:click={reset} style="font-size: 1.2em; padding: 0.3em;"> Reset </button>
+		<div class="text-lg">
+			<p>Round {round}</p>
+			<p>{formattedTime}</p>
+			<div>
+				sb: {smallBlind} - bb: {smallBlind * 2}
+			</div>
+		</div>
+
+		<button on:click={toggle} class="text-md p-2 margin-top: 3em">
+			{#if paused}
+				Start
+			{:else}
+				Pause
+			{/if}
+		</button>
+	</div>
 </div>

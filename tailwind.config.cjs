@@ -1,4 +1,12 @@
+var fs = require("fs")
+
 const { tailwindExtractor } = require("tailwindcss/lib/lib/purgeUnusedStyles")
+
+try {
+	var svg_content = fs.readFileSync("src/background-s.svg", "utf8")
+} catch (e) {
+	console.log("Error:", e.stack)
+}
 
 module.exports = {
 	mode: "aot",
@@ -20,5 +28,11 @@ module.exports = {
 	variants: {
 		extend: {}
 	},
-	plugins: []
+	plugins: [
+		require("tailwindcss-bg-svg")({
+			icons: {
+				cards: svg_content
+			}
+		})
+	]
 }
