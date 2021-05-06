@@ -17,7 +17,7 @@
 
 	timer.addEventListener("secondsUpdated", function (e) {
 		formattedTime = timer.getTimeValues().toString()
-		pieAngle = ($roundDuration - timer.getTotalTimeValues().seconds) * 360 / $roundDuration
+		pieAngle = ($roundDuration - timer.getTotalTimeValues().seconds) / $roundDuration
 	})
 
 	function nextRound() {
@@ -69,10 +69,12 @@
 <div
 style="color: #333333; margin: 2em; padding: 0.5em; padding-bottom: 3em; text-align: center;
 background: conic-gradient(
-	hsla(0, 0%, 0%, .5) 0deg {pieAngle}deg,
-	hsla(0, 100%, 100%, 0) 0deg {pieAngle}deg
     ) {bgColor};
 }"
+background:
+	conic-gradient(#333 {pieAngle}turn, {pieColor} {pieAngle + 0.001}turn);
+	transform-style: preserve-3d;
+)
 >
 <div style="font-size: 2em; color: #ddd">
 	<p>Round {round}</p>
