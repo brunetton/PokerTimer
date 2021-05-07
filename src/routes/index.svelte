@@ -17,10 +17,15 @@
 		key = {}
 		displayConfig = false
 	}
+
+	function cancel() {
+		displayConfig=false
+	}
+
 </script>
 
 {#if displayConfig}
-	<Config bind:initialSmallBlind bind:roundDuration on:configured={reset} />
+	<Config bind:initialSmallBlind bind:roundDuration on:configured={reset} on:cancelled={cancel} />
 {:else}
 	{#key key}
 		<Counter {initialSmallBlind} {roundDuration} on:displayMenu={onMenuButton} />

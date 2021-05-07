@@ -9,6 +9,10 @@
         dispatch("configured")
     }
 
+    function cancelClicked() {
+        dispatch("cancelled")
+    }
+
 </script>
 
 <div
@@ -32,7 +36,10 @@
       <input type="range" bind:value="{roundDuration}" min="1" max="59" />
     </div>
 
-    <button class="bg-coolGreen bg-opacity-80 border-2 shadow-lg px-8 py-3 text-lg font-semibold tracking-wider text-white rounded-xl hover:bg-opacity-100">OK</button>
+    <div class="space-x-7">
+        <button on:click={cancelClicked} class="bg-gray-600 bg-opacity-80 border-2 shadow-lg px-8 py-3 text-lg font-semibold tracking-wider text-white rounded-xl hover:bg-opacity-100 hover:text-yellow-200">Cancel</button>
+        <button class="bg-coolGreen bg-opacity-80 border-2 shadow-lg px-8 py-3 text-lg font-semibold tracking-wider text-white rounded-xl hover:bg-opacity-100 hover:text-yellow-200">OK</button>
+    </div>
   </form>
 </div>
 
