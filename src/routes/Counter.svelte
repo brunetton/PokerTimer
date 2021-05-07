@@ -7,11 +7,11 @@
 	import MdRefresh from 'svelte-icons/md/MdRefresh.svelte'
 
 	export let initialSmallBlind = 1
-	export let roundDuration = 13
+	export let roundDuration = 10  // in minutes
 
-	const InitialFormattedTime = "00:00"
 	const dispatch = createEventDispatcher();
-	const InitialFormattedTime = formatTime(Math.floor(roundDuration / 60), roundDuration % 60)
+	const InitialFormattedTime = `${roundDuration}:00`
+	const roundDurationSeconds = roundDuration * 60
 	var formattedTime = InitialFormattedTime
 	var started = false
 	var paused = true
@@ -32,7 +32,7 @@
 
 	timer.addEventListener("secondsUpdated", function (e) {
 		formattedTime = formatTime(timer.getTimeValues().minutes, timer.getTimeValues().seconds)
-		pieAngle = (roundDuration - timer.getTotalTimeValues().seconds) / roundDuration
+		pieAngle = (roundDurationSeconds - timer.getTotalTimeValues().seconds) / roundDurationSeconds
 	})
 
 	function nextRound() {
@@ -44,7 +44,7 @@
 	}
 
 	function start() {
-		timer.start({ precision: "seconds", countdown: true, startValues: { seconds: roundDuration } })
+		timer.start({ precision: "seconds", countdown: true, startValues: { minutes: roundDuration } })
 		started = true
 	}
 
