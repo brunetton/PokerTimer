@@ -33,6 +33,9 @@ module.exports = {
 			},
 			fontFamily: {
 				itim: ["Itim"]
+			},
+			colors: {
+				coolBlue: "#2196f3"
 			}
 		}
 	},
