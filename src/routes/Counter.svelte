@@ -7,7 +7,7 @@
 	import MdRefresh from 'svelte-icons/md/MdRefresh.svelte'
 
 	export let initialSmallBlind = 1
-	export let roundDuration = 10  // in minutes
+	export let roundDuration = 1  // in minutes
 
 	const dispatch = createEventDispatcher();
 	const InitialFormattedTime = `${roundDuration}:00`
@@ -18,6 +18,7 @@
 	var round = 1
 	var pieAngle = 0
 	var smallBlind = initialSmallBlind
+	let innerWidth
 
 	const timer = new Timer()
 
@@ -78,10 +79,25 @@
 		dispatch("displayMenu")
 	}
 
+	function computeBigFontSize(smallBlind, innerWidth) {
+		const bigBlind = smallBlind * 2
+		if (innerWidth < 650) {
+			if (bigBlind >= 1000) return "30vmin"
+			if (bigBlind >= 100) return "35vmin"
+			return "40vmin"
+		} else {
+			// big screens
+			return "150pt"
+		}
+	}
+
 	const blurRatio = "0.8px"
 
 	$: grayscaleFilter = paused ? "grayscale(100%)" : ""
+	$: bigFontSize = computeBigFontSize(smallBlind, innerWidth)
 </script>
+
+<svelte:window bind:innerWidth={innerWidth} />
 
 <div
 	class="relative bg-svg-cards-white bg-repeat h-screen"
@@ -92,7 +108,7 @@
 />
 
 <div
-	class="absolute top-0 flex flex-col justify-evenly h-screen w-screen text-center font-itim text-gray-50"
+	class="absolute top-0 flex flex-col justify-evenly h-screen w-screen text-center font-itim text-gray-50 overflow-y-hidden"
 	style="background:
 		conic-gradient(#000a {pieAngle}turn, #fff0 {pieAngle + (pieAngle && 0.001)}turn);
 		transform-style: preserve-3d;
@@ -109,7 +125,7 @@
 	</div>
 
 	<!-- Main -->
-	<div class="text-13xl text-shadow">{smallBlind}</div>
+	<div class="text-shadow" style="font-size: {bigFontSize};">{smallBlind}</div>
 	<div class="flex justify-around items-center">
 		<button class="w-12"><FaArrowLeft /></button>
 		<div on:click={toggle} class="rounded-full p-2 px-8 bg-opacity-80 shadow-md" style="background: #08BC6Daa">
@@ -118,5 +134,5 @@
 		</div>
 		<button class="w-12"><FaArrowRight /></button>
 	</div>
-	<div class="text-13xl text-shadow">{smallBlind * 2}</div>
+	<div class="text-shadow" style="font-size: {bigFontSize};">{smallBlind * 2}</div>
 </div>
