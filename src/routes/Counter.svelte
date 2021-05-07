@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Timer from "easytimer.js"
+	import { createEventDispatcher } from 'svelte';
 	import FaArrowLeft from 'svelte-icons/fa/FaArrowLeft.svelte'
 	import FaArrowRight from 'svelte-icons/fa/FaArrowRight.svelte'
 	import FaEllipsisV from 'svelte-icons/fa/FaEllipsisV.svelte'
@@ -9,6 +10,8 @@
 	export let roundDuration = 13
 
 	const InitialFormattedTime = "00:00"
+	const dispatch = createEventDispatcher();
+	const InitialFormattedTime = formatTime(Math.floor(roundDuration / 60), roundDuration % 60)
 	var formattedTime = InitialFormattedTime
 	var started = false
 	var paused = true
@@ -22,12 +25,13 @@
 		nextRound()
 	})
 
-	const padInt = (n: Number) => String(n).padStart(2, "0");
+	function formatTime(minutes, seconds) {
+		const padInt = (n: Number) => String(n).padStart(2, "0");
+		return `${padInt(minutes)}:${padInt(seconds)}`
+	}
 
 	timer.addEventListener("secondsUpdated", function (e) {
-		const seconds = timer.getTimeValues().seconds
-		const minutes = timer.getTimeValues().minutes
-		formattedTime = `${padInt(minutes)}:${padInt(seconds)}`
+		formattedTime = formatTime(timer.getTimeValues().minutes, timer.getTimeValues().seconds)
 		pieAngle = (roundDuration - timer.getTotalTimeValues().seconds) / roundDuration
 	})
 
@@ -70,6 +74,10 @@
 		round = 1
 	}
 
+	function displayMenu() {
+		dispatch("displayMenu")
+	}
+
 	const blurRatio = "0.8px"
 
 	$: grayscaleFilter = paused ? "grayscale(100%)" : ""
@@ -92,10 +100,10 @@
 >
 	<!-- Top buttons -->
 	<div class="absolute top-0 w-full flex justify-between">
-		<button class="w-16 rounded-full bg-red-500 bg-opacity-70 border-2 border-opacity-90 shadow-lg m-2 p-0.5 hover:text-yellow-200">
+		<button on:click={reset} class="w-16 rounded-full bg-red-500 bg-opacity-70 border-2 border-opacity-90 shadow-lg m-2 p-0.5 hover:text-yellow-200">
 			<MdRefresh />
 		</button>
-		<button class="h-16 w-16 rounded-full border-2 border-opacity-90 bg-coolBlue bg-opacity-70 shadow-lg m-2 p-3 hover:text-yellow-200">
+		<button on:click={displayMenu} class="h-16 w-16 rounded-full border-2 border-opacity-90 bg-coolBlue bg-opacity-70 shadow-lg m-2 p-3 hover:text-yellow-200">
 			<FaEllipsisV />
 		</button>
 	</div>

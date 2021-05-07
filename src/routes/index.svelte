@@ -5,17 +5,25 @@
 	let initialSmallBlind
 	let roundDuration
 	let key = {}
+	let displayConfig = false
+
+	function onMenuButton() {
+		// User clicked menu button
+		displayConfig = true
+	}
 
 	function reset() {
 		// Generate a new key in order to generate a new Counter instance
 		key = {}
+		displayConfig = false
 	}
 </script>
 
-<!-- <Config bind:initialSmallBlind bind:roundDuration on:configured={reset} /> -->
+{#if displayConfig}
+	<Config bind:initialSmallBlind bind:roundDuration on:configured={reset} />
+{:else}
+	{#key key}
+		<Counter {initialSmallBlind} {roundDuration} on:displayMenu={onMenuButton} />
+	{/key}
+{/if}
 
-<!-- <Counter initialSmallBlind={30} roundDuration={300} /> -->
-
-{#key key}
-	<Counter {initialSmallBlind} {roundDuration} />
-{/key}
