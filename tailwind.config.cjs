@@ -23,7 +23,18 @@ module.exports = {
 		safelist: [/^svelte-[\d\w]+$/]
 	},
 	theme: {
-		extend: {}
+		extend: {
+			fontSize: {
+				"10xl": ["10rem", { lineHeight: "1" }],
+				"11xl": ["11rem", { lineHeight: "1" }],
+				"12xl": ["12rem", { lineHeight: "1" }],
+				"13xl": ["13rem", { lineHeight: "1" }],
+				"14xl": ["14rem", { lineHeight: "1" }]
+			},
+			fontFamily: {
+				itim: ["Itim"]
+			}
+		}
 	},
 	variants: {
 		extend: {}

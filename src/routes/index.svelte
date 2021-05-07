@@ -12,9 +12,7 @@
 	}
 </script>
 
-<Config bind:initialSmallBlind bind:roundDuration on:configured={reset} />
-
-<div style="height: 2em" />
+<!-- <Config bind:initialSmallBlind bind:roundDuration on:configured={reset} /> -->
 
 <!-- <Counter initialSmallBlind={30} roundDuration={300} /> -->
 
