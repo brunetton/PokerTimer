@@ -5,7 +5,7 @@
 	let initialSmallBlind
 	let roundDuration
 	let key = {}
-	let displayConfig = false
+	let displayConfig = true
 
 	function onMenuButton() {
 		// User clicked menu button
