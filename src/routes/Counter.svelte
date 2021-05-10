@@ -41,7 +41,16 @@
 		timer.reset()
 		smallBlind += 1
 		pieAngle = 0
-		formattedTime = timer.getTimeValues().toString()
+		formattedTime = InitialFormattedTime
+	}
+
+	function prevRound() {
+		if (round <= 1) return
+		round = Math.max(1, round - 1)
+		timer.reset()
+		smallBlind += 1
+		pieAngle = 0
+		formattedTime = InitialFormattedTime
 	}
 
 	function start() {
@@ -127,12 +136,12 @@
 	<!-- Main -->
 	<div class="text-shadow" style="font-size: {bigFontSize};">{smallBlind}</div>
 	<div class="flex justify-around items-center">
-		<button class="w-12"><FaArrowLeft /></button>
+		<button on:click={prevRound} class="w-12"><FaArrowLeft /></button>
 		<div on:click={toggle} class="rounded-full p-2 px-8 bg-opacity-80 shadow-md" style="background: #08BC6Daa">
 			<p class="text-3xl">Round {round}</p>
 			<p class="text-4xl font-bold mt-2">{formattedTime}</p>
 		</div>
-		<button class="w-12"><FaArrowRight /></button>
+		<button on:click={nextRound} class="w-12"><FaArrowRight /></button>
 	</div>
 	<div class="text-shadow" style="font-size: {bigFontSize};">{smallBlind * 2}</div>
 </div>
