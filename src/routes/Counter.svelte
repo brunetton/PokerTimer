@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Timer from "easytimer.js"
+	import {Timer} from "easytimer.js"
 	import { createEventDispatcher } from 'svelte';
 	import FaArrowLeft from 'svelte-icons/fa/FaArrowLeft.svelte'
 	import FaArrowRight from 'svelte-icons/fa/FaArrowRight.svelte'
