@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Counter from "./Counter.svelte"
 	import Config from "./Config.svelte"
+	import '../app.postcss';
 
 	let initialSmallBlind
 	let roundDuration
