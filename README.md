@@ -13,3 +13,7 @@ To enable it:
 
 - open `about:config` in the browser
 - search for `layout.css.conic-gradient.enabled` and set it to `true`
+
+# See also
+
+https://github.com/brunetton/poker_poket_hands
